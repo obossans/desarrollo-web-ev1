@@ -1,29 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UfController;
+use App\Http\Controllers\ControllerObtenerTodo;
+use App\Http\Controllers\ControllerVerUno;
+use App\Http\Controllers\ControllerCrear;
+use App\Http\Controllers\ControllerModificar;
+use App\Http\Controllers\ControllerEliminar;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/mantenedor', function () {
-    return view('MantenedorView');
-});
+Route::get('/posts', [ControllerObtenerTodo::class, 'index']);
 
-Route::get('/mantenedor/{_id}', function ($_id) {
-    return "mantenedor del id buscado: {$_id}";
-    // return view('MantenedorView');
-});
+Route::get('/posts/crear', [ControllerCrear::class, 'create']);
 
-Route::get('/proyecto', function () {
-    return view('ProyectoView');
-});
+Route::post('/posts', [ControllerCrear::class, 'store']);
 
-Route::get('/proyecto/{_id}', function ($_id) {
-    return "proyecto del id buscado: {$_id}";
-    // return view('ProyectoView');
-});
+Route::get('/posts/{id}', [ControllerVerUno::class, 'show']);
 
-Route::get('/uf', 'App\Http\Controllers\UfController@showUf');
-//Route::get('/uf', [UfController::class, 'showUf']);
-//tuve que ingresar la path completa para que funcionara y encontrara la clase en el controlador
+Route::get('/posts/{post}/edit', [ControllerModificar::class, 'edit']);
+
+Route::get('/uf', [UfController::class, 'showUf']);
+
+Route::put('/posts/{post}', [ControllerModificar::class, 'update']);
+
+Route::delete('/posts/{post}', [ControllerEliminar::class, 'destroy']);
